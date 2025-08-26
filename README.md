@@ -28,7 +28,7 @@ You’re running a craft brewery. Each malt type contributes to **color** and **
 - $\mathrm{col}_j$ — color contribution per kg of malt $j$.
 - $\mathrm{body}_j$ — body contribution per kg of malt $j$.
 - $\overline{x}_j$ — available inventory (kg) of malt $j$.
-- Scalars: $\text{GRIST\_MIN}$, $\text{GRIST\_MAX}$, $\text{COLOR\_MIN}$, $\text{COLOR\_MAX}$, $\text{BODY\_MIN}$, $\text{BODY\_MAX}$, $\text{MAX\_DISTINCT\_MALTS}$.
+- **Scalars:** `GRIST_MIN`, `GRIST_MAX`, `COLOR_MIN`, `COLOR_MAX`, `BODY_MIN`, `BODY_MAX`, `MAX_DISTINCT_MALTS`.
 
 ### Decision Variables
 - $x_j \ge 0$: kg of malt $j$ used.
@@ -42,30 +42,35 @@ $$
 ### Constraints
 
 1. **Batch size (grist) bounds**
-$$
-\sum_{j\in J} x_j \ge \text{GRIST\_MIN}, \qquad
-\sum_{j\in J} x_j \le \text{GRIST\_MAX}
-$$
+
+   $$
+   \sum_{j\in J} x_j \ge \text{GRIST\_MIN}, \qquad
+   \sum_{j\in J} x_j \le \text{GRIST\_MAX}
+   $$
 
 2. **Linking & inventory** (no using a malt unless it’s activated; respect stock)
-$$
-x_j \le \overline{x}_j\, z_j \quad \forall j\in J
-$$
+
+   $$
+   x_j \le \overline{x}_j\, z_j \quad \forall j\in J
+   $$
 
 3. **Style windows** (normalize contributions by total grist so proportions govern style)
-$$
-\sum_{j\in J} \mathrm{col}_j\, x_j \;\ge\; \text{COLOR\_MIN}\, \sum_{j\in J} x_j, \qquad
-\sum_{j\in J} \mathrm{col}_j\, x_j \;\le\; \text{COLOR\_MAX}\, \sum_{j\in J} x_j
-$$
-$$
-\sum_{j\in J} \mathrm{body}_j\, x_j \;\ge\; \text{BODY\_MIN}\, \sum_{j\in J} x_j, \qquad
-\sum_{j\in J} \mathrm{body}_j\, x_j \;\le\; \text{BODY\_MAX}\, \sum_{j\in J} x_j
-$$
+
+   $$
+   \sum_{j\in J} \mathrm{col}_j\, x_j \;\ge\; \text{COLOR\_MIN}\, \sum_{j\in J} x_j, \qquad
+   \sum_{j\in J} \mathrm{col}_j\, x_j \;\le\; \text{COLOR\_MAX}\, \sum_{j\in J} x_j
+   $$
+
+   $$
+   \sum_{j\in J} \mathrm{body}_j\, x_j \;\ge\; \text{BODY\_MIN}\, \sum_{j\in J} x_j, \qquad
+   \sum_{j\in J} \mathrm{body}_j\, x_j \;\le\; \text{BODY\_MAX}\, \sum_{j\in J} x_j
+   $$
 
 4. **Operational simplicity** (limit distinct malts)
-$$
-\sum_{j\in J} z_j \le \text{MAX\_DISTINCT\_MALTS}
-$$
+
+   $$
+   \sum_{j\in J} z_j \le \text{MAX\_DISTINCT\_MALTS}
+   $$
 
 ---
 
